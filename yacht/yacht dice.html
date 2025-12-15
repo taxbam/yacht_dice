@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            text-align: center;
+            font-size: 3vw;
+            overflow: hidden;
+        }
+
+        nav {
+            width: 15vw;
+            height: 99vh;
+            float: left;
+            background: #FF6565;
+            padding-top: 1vh;
+        }
+
+        section {
+            width: 69vw;
+            height: 99vh;
+            float: left;
+        }
+
+        aside {
+            width: 15vw;
+            height: 99vh;
+            float: right;
+            background: #CBCBFF;
+            padding-top: 1vh;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        table,
+        td,
+        th {
+            text-align: center;
+            border-collapse: collapse;
+            border: 5px solid black;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        td {
+            height: 3vw;
+            font-size: 1.5vw;
+        }
+
+        h1 {
+            text-align: center;
+            color: green;
+            font-size: 3.5vw;
+        }
+
+        div {
+            text-align: center;
+        }
+
+        input {
+            height: 70%;
+            width: 50%;
+        }
+        
+        .btn {
+            height : 15vh;
+            width : 30vw;
+            font-size: 3vw;
+        }
+
+        input:active {
+            box-shadow: 0px 0px 1vw black;
+        }
+
+        input:onclick {
+            background: green;
+        }
+
+        img {
+            text-align: center;
+            border-radius: 20px 20px 20px 20px;
+            border: 5px solid white;
+        }
+
+        .bt {
+            color: gray;
+            font-style: oblique;
+            font-size: 1vw;
+        }
+    </style>
+
+    <script>
+        let r = [0, 0, 0, 0.0];
+        let lck = [0, 0, 0, 0, 0];
+        let chance = 3;
+        let number = [0, 0, 0, 0, 0, 0, 0];
+        let score1 = 0;
+        let score2 = 0;
+        let end = 0;
+        let choice = 0;
+        let pval;
+        let turn = 1;
+        let bonval1 = 0;
+        let bonval2 = 0;
+        let numver = 0;
+        let a = 0;
+        let b = 0;
+        let tm = 0;
+        let timeid;
+        let ua = 0;
+        let time = 0;
+        let imgs = [0,0,0,0,0]
+
+        function rd() {
+            let m = Math.random() * 6;
+            let n = Math.floor(m) + 1;
+            return n;
+        }
+
+        function reroll() {
+            ua++;
+            for (let i = 0; i < 5; i++) {
+                if (lck[i] == 0) {
+                    r[i] = rd();
+                    getid = document.getElementById("dice" + i);
+                    getid.src = "주사위/" + r[i] + ".jpg";
+                    if (ua == 4) {
+                        number[r[i]]++;
+                    }
+                }
+            }
+        }
+
+        function tran(id) {
+            let turnid = id[id.length - 1];
+            if (String(turn) == turnid) {
+                trans(id);
+            }
+        }
+
+        function trans(id) {
+            let btn = document.getElementById(id);
+
+            if (btn.name == 0) {
+                btn.name = 1;
+                btn.style = "color:black; background-color:#87E0A6";
+
+                if (turn == 1) {
+                    for (let q = 1; q < 7; q++) {
+                        numver = document.getElementById(q + "1");
+                        if (numver.name == 1) {
+                            bonval1 = bonval1 + numver.value / 2 * 2;
+                        }
+                    }
+                    bonuss1();
+                    bonval1 = 0;
+                    turn++;
+                    let scr1 = document.getElementById("scor1");
+                    score1 = score1 + (btn.value * 2 / 2);
+                    scr1.value = score1;
+                    let P1 = document.getElementById("P1");
+                    let P2 = document.getElementById("P2");
+                    P1.style = "color:black";
+                    P2.style = "color:red";
+
+                    for (j = 0; j < 5; j++) {
+                        if (lck[j] == 1) {
+                            lock(j);
+                        }
+                    }
+                }
+                else {
+                    for (let q = 1; q < 7; q++) {
+                        numver = document.getElementById(q + "2");
+                        if (numver.name == 1) {
+                            bonval2 = bonval2 + numver.value / 2 * 2;
+                        }
+                    }
+                    bonuss2();
+                    bonval2 = 0;
+                    turn--;
+                    end++;
+                    let scr2 = document.getElementById("scor2");
+                    score2 = score2 + (btn.value * 2 / 2);
+                    scr2.value = score2;
+                    let P1 = document.getElementById("P1");
+                    let P2 = document.getElementById("P2");
+                    P1.style = "color:blue";
+                    P2.style = "color:black";
+                    for (j = 0; j < 5; j++) {
+                        if (lck[j] == 1) {
+                            lock(j);
+                        }
+                    }
+                }
+                chance = 3;
+                change();
+            }
+        }
+
+        function change() {
+            let getid = 0;
+            if (chance > 0) {
+                chance--;
+                number_reset();
+                let roll = document.getElementById("reroll");
+                roll.value = "reroll[" + chance + "]";
+                time = 50;
+                setTimeout("reroll()", time);
+                setTimeout("reroll()", time * 2);
+                setTimeout("reroll()", time * 3);
+                setTimeout("reroll()", time * 4);
+                let timee = setTimeout("start()", time * 4 + 2);
+                ua = 0;     
+                if (end == 12) {
+                    for(let x=0;x<5;x++){
+                        imgs[x] = document.getElementById("dice"+x);
+                        imgs[x].style ="display:none"
+                    }
+
+                    let ending = document.getElementById("ending")
+                    if (score1 > score2) {
+                        ending.innerHTML = "Player1 WIN <br> P1:"+score1+" , "+"P2:"+score2;
+                    }
+                    else if (score2 > score1) {
+                        ending.innerHTML = "Player2 WIN <br> P1:"+score1+" , "+"P2:"+score2;
+                    }
+                    else {
+                        ending.innerHTML = "DRAW <br> P1:"+score1+" , "+"P2:"+score2;
+                    }
+                    document.body.style="background-color: #F3E3C3;"
+                    roll.value = "처음으로"
+                    roll.onclick = function() {
+                        window.location.href = "index.html";
+                    }
+                }
+            }
+        }
+
+        function start() {
+            prevalue();
+            let choice_fix = document.getElementById("choicee" + turn);
+            if (choice_fix.name == 0) {
+                choicee();
+            }
+
+            let fullhouse_fix = document.getElementById("fullhousee" + turn);
+            if (fullhouse_fix.name == 0) {
+                fullhousee();
+            }
+
+            let largess_fix = document.getElementById("lst" + turn);
+            if (largess_fix.name == 0) {
+                largess();
+            }
+
+            let smallss_fix = document.getElementById("sst" + turn);
+            if (smallss_fix.name == 0) {
+                smallss();
+            }
+
+            let FOK_fix = document.getElementById("FOK" + turn);
+            if (FOK_fix.name == 0) {
+                fok();
+            }
+
+            let yachu_fix = document.getElementById("yachuu" + turn);
+
+            if (yachu_fix.name == 0) {
+                yachuu();
+            }
+        }
+
+        function prevalue() {
+            choice = 0;
+            let H = new String();
+            for (let k = 1; k < 7; k++) {
+                H = String(k);
+                pval = document.getElementById(H + turn);
+                choice = choice + (number[k] * k);
+                if (pval.name == 0) {
+                    pval.value = number[k] * k;
+                }
+            }
+        }
+
+        function choicee() {
+            pval = document.getElementById("choicee" + turn);
+            pval.value = choice;
+        }
+
+        function fullhousee() {
+            pval = document.getElementById("fullhousee" + turn);
+            pval.value = 0;
+            for (let o = 1; o < 7; o++) {
+                for (let p = 1; p < 7; p++) {
+                    if ((number[o] == "3") && (number[p] == "2")) {
+                        pval.value = 25;
+                    }
+                }
+            }
+        }
+
+        function largess() {
+            pval = document.getElementById("lst" + turn)
+            pval.value = 0;
+            for (let q = 1; q < 3; q++) {
+                if ((number[q] == 1) && (number[q + 1] == 1) && (number[q + 2] == 1) && (number[q + 3] == 1) && (number[q + 4] == 1)) {
+                    pval.value = 40;
+                }
+            }
+        }
+
+        function smallss() {
+            pval = document.getElementById("sst" + turn)
+            pval.value = 0;
+            for (let q = 1; q < 4; q++) {
+                if ((number[q] >= 1) && (number[q + 1] >= 1) && (number[q + 2] >= 1) && (number[q + 3] >= 1)) {
+                    pval.value = 30;
+                }
+            }
+        }
+
+        function fok() {
+            pval = document.getElementById("FOK" + turn)
+            pval.value = 0;
+            for (let p = 1; p < 7; p++) {
+                if (number[p] >= 4) {
+                    pval.value = choice;
+                }
+            }
+        }
+
+        function yachuu() {
+            pval = document.getElementById("yachuu" + turn)
+            pval.value = 0;
+            for (let p = 1; p < 7; p++) {
+                if (number[p] == 5) {
+                    pval.value = 50;
+                }
+            }
+        }
+
+        function bonuss1() {
+            pval = document.getElementById("bon1");
+            let total = document.getElementById("total1");
+            total.innerHTML = bonval1;
+            if (bonval1 > 62) {
+                pval.value = 35;
+                if (a == 0) { score1 = score1 + 35; }
+                a++
+            }
+            else { pval.value = 0; }
+        }
+
+        function bonuss2() {
+            let bonv = document.getElementById("bon2");
+            let total = document.getElementById("total2");
+            total.innerHTML = bonval2;
+            if (bonval2 > 62) {
+                bonv.value = 35;
+                if (b == 0) { score2 = score2 + 35; }
+                b++
+            }
+            else { bonv.value = 0; }
+        }
+
+        function number_reset() {
+            number = [0, 0, 0, 0, 0, 0, 0]
+            for (let j = 0; j < 5; j++) {
+                if (lck[j] != 0) {
+                    number[r[j]]++;
+                }
+            }
+        }
+
+        function lock(num) {
+            let getid = document.getElementById("dice" + num);
+            if (lck[num] == 0) {
+                lck[num] = 1;
+                getid.title = "잠김";
+                getid.style.border = "5px solid black";
+            }
+            else {
+                lck[num] = 0;
+                getid.title = "풀림";
+                getid.style.border = "5px solid white";
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+
+    <nav>
+        <table>
+            <thead>
+                <tr>
+                    <th id="P1" colspan="2" style="color:blue;"><strong>P1</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1 <input type="button" class="bt" id="11" onclick="tran(id)" name="0"></td>
+                    <td>2 <input type="button" class="bt" id="21" onclick="tran(id)" name="0"></td>
+                </tr>
+                <tr>
+                    <td>3 <input type="button" class="bt" id="31" onclick="tran(id)" name="0"></td>
+                    <td>4 <input type="button" class="bt" id="41" onclick="tran(id)" name="0"></td>
+                </tr>
+                <tr>
+                    <td>5 <input type="button" class="bt" id="51" onclick="tran(id)" name="0"></td>
+                    <td>6 <input type="button" class="bt" id="61" onclick="tran(id)" name="0"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-size:1.5vw">1~6= <span id="total1">0</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-size:1.5vw">BONUS(63↑)
+                        <input type="button" id="bon1" name="0"
+                            style="color:black; font-size:1vw; width:4vw; background-color:#87E0A6;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">choice <input type="button" class="bt" id="choicee1" onclick="tran(id)" name="0">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">fullhouse <input type="button" class="bt" id="fullhousee1" onclick="tran(id)"
+                            name="0"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">LargeST <input type="button" class="bt" id="lst1" onclick="tran(id)" name="0"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">SmalIST <Input type="button" class="bt" id="sst1" onclick="tran(id)" name="0"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">4 of kind <input type="button" class="bt" id="FOK1" onclick="tran(id)" name="0">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">YACHT <input type="button" class="bt" id="yachuu1" onclick="tran(id)" name="0"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">score= <input type="button" id="scor1" style="font-size:1vw;"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </nav>
+
+    <aside>
+        <table>
+            <thead>
+                <tr>
+                    <th id="P2" colspan="2" style="color:black;"><strong>P2</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1 <input type="button" class="bt" id="12" onclick="tran(id)" name="0"></td>
+                    <td>2 <input type="button" class="bt" id="22" onclick="tran(id)" name="0"></td>
+                </tr>
+                <tr>
+                    <td>3 <input type="button" class="bt" id="32" onclick="tran(id)" name="0"></td>
+                    <td>4 <input type="button" class="bt" id="42" onclick="tran(id)" name="0"></td>
+                </tr>
+                <tr>
+                    <td>5 <input type="button" class="bt" id="52" onclick="tran(id)" name="0"></td>
+                    <td>6 <input type="button" class="bt" id="62" onclick="tran(id)" name="0"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-size:1.5vw">1~6= <span id="total2">0</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-size:1.5vw">BONUS(63↑)
+                        <input type="button" id="bon2" name="0"
+                            style="color:black; font-size:1vw; width:4vw; background-color:#87E0A6;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">choice <input type="button" class="bt" id="choicee2" onclick="tran(id)" name="0">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">fullhouse <input type="button" class="bt" id="fullhousee2" onclick="tran(id)"
+                            name="0"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">LargeST <input type="button" class="bt" id="lst2" onclick="tran(id)" name="0"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">SmalIST <input type="button" class="bt" id="sst2" onclick="tran(id)" name="0"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">4 of kind <input type="button" class="bt" id="FOK2" onclick="tran(id)" name="0">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">YACHT <input type="button" class="bt" id="yachuu2" onclick="tran(id)" name="0"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">score= <input type="button" id="scor2" style="font-size:1vw;"></td>
+                <tr>
+            </tfoot>
+        </table>
+    </aside>
+
+
+    <section>
+        <h1>yacht dice</h1>
+        <hr>
+        <div id="ending">
+            <img src="주사위/0.jpg" id="dice0" width="150vh" height="150vh" onclick="lock(0)">
+            <img src="주사위/0.jpg" id="dice1" width="150vh" height="150vh" onclick="lock(1)">
+            <img src="주사위/0.Jpg" id="dice2" width="150vh" height="150vh" onclick="lock(2)">
+            <img src="주사위/0.jpg" id="dice3" width="150vh" height="150vh" onclick="lock(3)">
+            <img src="주사위/0.Jpg" id="dice4" width="150vh" height="150vh" onclick="lock(4)">
+        </div>
+        <form style="text-align: center;">
+            <input type="button" id="reroll" value="reroll[3]" class="btn"
+                style="color: black;" onclick="change()" color="black">
+            </button>
+        </form>
+        <div style="position:fixed; font-size: 1vw; bottom:0; right:15vw;">제작자 : 한성대학교 정태현</div>
+    </section>
+</body>
+
+</html>

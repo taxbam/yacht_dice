@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            background-color: #F0D8B2;
+        }
+        span {
+            width: 35vw;
+            font-size: clamp(40px, 10vw, 200px);
+            text-align: left;
+            display: inline;
+            margin-left: 20vw;
+            margin-top: 5vh;
+        }
+
+        img {
+            width: 30vw;
+            margin-left: 10vw;
+            margin-top: 3vh;
+            height: auto;
+        }
+
+        input {
+            width: 30vw;
+            font-size: clamp(30px,3vw,100px);
+            padding-top: 2vh;
+            padding-bottom: 2vh;
+        }
+    </style>
+
+    <div>
+        <img src="주사위\dice.jpg">
+        <span style="position: absolute; top:0;font-family: 'HY헤드라인M', sans-serif;">YACHT</span>
+    </div>
+
+    <div style="float:right; margin-right:10%; width:30%">
+        <input type="button" id="start">
+        <br><br>
+        <input type="button" id="rule">
+    </div>
+
+    <script>
+        let start = document.getElementById("start")
+        let rule = document.getElementById("rule")
+        start.value = "시작하기";
+        rule.value = "룰 설명";
+
+        start.onclick = function () {
+            window.location.href = "yacht dice.html";
+        }
+        rule.onclick = function () {
+            window.location.href = "yacht rule.html";
+        }
+    </script>
