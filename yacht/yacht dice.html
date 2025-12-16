@@ -12,28 +12,31 @@
             text-align: center;
             font-size: 3vw;
             overflow: hidden;
+            
         }
 
         nav {
-            width: 15vw;
-            height: 99vh;
+            width: 16vw;
+            height: 95vh;
             float: left;
             background: #FF6565;
             padding-top: 1vh;
+            overflow: scroll;   
         }
 
         section {
-            width: 69vw;
+            width: 67vw;
             height: 99vh;
             float: left;
         }
 
         aside {
-            width: 15vw;
-            height: 99vh;
+            width: 16vw;
+            height: 95vh;
             float: right;
             background: #CBCBFF;
             padding-top: 1vh;
+            overflow: scroll;   
         }
 
         table {
@@ -88,6 +91,9 @@
             text-align: center;
             border-radius: 20px 20px 20px 20px;
             border: 5px solid white;
+            width: 8vw;
+            height: 8vw;
+
         }
 
         .bt {
@@ -119,6 +125,7 @@
         let time = 0;
         let imgs = [0,0,0,0,0]
 
+
         function rd() {
             let m = Math.random() * 6;
             let n = Math.floor(m) + 1;
@@ -131,7 +138,7 @@
                 if (lck[i] == 0) {
                     r[i] = rd();
                     getid = document.getElementById("dice" + i);
-                    getid.src = "주사위/" + r[i] + ".jpg";
+                    getid.src = "주사위/" + r[i] + ".png";
                     if (ua == 4) {
                         number[r[i]]++;
                     }
@@ -272,10 +279,10 @@
                 fok();
             }
 
-            let yachu_fix = document.getElementById("yachuu" + turn);
+            let yacht_fix = document.getElementById("yachtu" + turn);
 
-            if (yachu_fix.name == 0) {
-                yachuu();
+            if (yacht_fix.name == 0) {
+                yachtu();
             }
         }
 
@@ -339,8 +346,8 @@
             }
         }
 
-        function yachuu() {
-            pval = document.getElementById("yachuu" + turn)
+        function yachtu() {
+            pval = document.getElementById("yachtu" + turn)
             pval.value = 0;
             for (let p = 1; p < 7; p++) {
                 if (number[p] == 5) {
@@ -449,7 +456,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">YACHT <input type="button" class="bt" id="yachuu1" onclick="tran(id)" name="0"></td>
+                    <td colspan="2">YACHT <input type="button" class="bt" id="yachtu1" onclick="tran(id)" name="0"></td>
                 </tr>
             </tbody>
             <tfoot>
@@ -508,7 +515,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">YACHT <input type="button" class="bt" id="yachuu2" onclick="tran(id)" name="0"></td>
+                    <td colspan="2">YACHT <input type="button" class="bt" id="yachtu2" onclick="tran(id)" name="0"></td>
                 </tr>
             </tbody>
             <tfoot>
@@ -524,18 +531,18 @@
         <h1>yacht dice</h1>
         <hr>
         <div id="ending">
-            <img src="주사위/0.jpg" id="dice0" width="150vh" height="150vh" onclick="lock(0)">
-            <img src="주사위/0.jpg" id="dice1" width="150vh" height="150vh" onclick="lock(1)">
-            <img src="주사위/0.Jpg" id="dice2" width="150vh" height="150vh" onclick="lock(2)">
-            <img src="주사위/0.jpg" id="dice3" width="150vh" height="150vh" onclick="lock(3)">
-            <img src="주사위/0.Jpg" id="dice4" width="150vh" height="150vh" onclick="lock(4)">
+            <img src="주사위/0.png" id="dice0" width="150vh" height="150vh" onclick="lock(0)">
+            <img src="주사위/0.png" id="dice1" width="150vh" height="150vh" onclick="lock(1)">
+            <img src="주사위/0.png" id="dice2" width="150vh" height="150vh" onclick="lock(2)">
+            <img src="주사위/0.png" id="dice3" width="150vh" height="150vh" onclick="lock(3)">
+            <img src="주사위/0.png" id="dice4" width="150vh" height="150vh" onclick="lock(4)">
         </div>
         <form style="text-align: center;">
             <input type="button" id="reroll" value="reroll[3]" class="btn"
                 style="color: black;" onclick="change()" color="black">
             </button>
         </form>
-        <div style="position:fixed; font-size: 1vw; bottom:0; right:15vw;">제작자 : 한성대학교 정태현</div>
+        <div style="position:fixed; font-size: 1vw; bottom:0; right:17vw;">제작자 : 한성대학교 정태현</div>
     </section>
 </body>
 
