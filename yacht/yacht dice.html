@@ -104,7 +104,13 @@
     </style>
 
     <script>
-        let r = [0, 0, 0, 0.0];
+        let dicePaths = [];
+        for (let i = 0; i <= 6; i++) {
+            dicePaths[i] = "주사위/" + i + ".png";
+            let imgPreload = new Image();
+            imgPreload.src = dicePaths[i];
+        }
+        let r = [0, 0, 0, 0, 0];
         let lck = [0, 0, 0, 0, 0];
         let chance = 3;
         let number = [0, 0, 0, 0, 0, 0, 0];
@@ -138,7 +144,7 @@
                 if (lck[i] == 0) {
                     r[i] = rd();
                     getid = document.getElementById("dice" + i);
-                    getid.src = "주사위/" + r[i] + ".png";
+                    getid.src = dicePaths[r[i]];
                     if (ua == 4) {
                         number[r[i]]++;
                     }
@@ -221,10 +227,10 @@
                 let roll = document.getElementById("reroll");
                 roll.value = "reroll[" + chance + "]";
                 time = 50;
-                setTimeout("reroll()", time);
-                setTimeout("reroll()", time * 2);
-                setTimeout("reroll()", time * 3);
-                setTimeout("reroll()", time * 4);
+                setTimeout(reroll, time);
+                setTimeout(reroll, time * 2);
+                setTimeout(reroll, time * 3);
+                setTimeout(reroll, time * 4);
                 let timee = setTimeout("start()", time * 4 + 2);
                 ua = 0;     
                 if (end == 12) {
@@ -309,7 +315,7 @@
             pval.value = 0;
             for (let o = 1; o < 7; o++) {
                 for (let p = 1; p < 7; p++) {
-                    if ((number[o] == "3") && (number[p] == "2")) {
+                    if ((number[o] == 3) && (number[p] == 2)) {
                         pval.value = 25;
                     }
                 }
@@ -449,7 +455,7 @@
                     <td colspan="2">LargeST <input type="button" class="bt" id="lst1" onclick="tran(id)" name="0"></td>
                 </tr>
                 <tr>
-                    <td colspan="2">SmalIST <Input type="button" class="bt" id="sst1" onclick="tran(id)" name="0"></td>
+                    <td colspan="2">SmallST <Input type="button" class="bt" id="sst1" onclick="tran(id)" name="0"></td>
                 </tr>
                 <tr>
                     <td colspan="2">4 of kind <input type="button" class="bt" id="FOK1" onclick="tran(id)" name="0">
@@ -508,7 +514,7 @@
                     <td colspan="2">LargeST <input type="button" class="bt" id="lst2" onclick="tran(id)" name="0"></td>
                 </tr>
                 <tr>
-                    <td colspan="2">SmalIST <input type="button" class="bt" id="sst2" onclick="tran(id)" name="0"></td>
+                    <td colspan="2">SmallST <input type="button" class="bt" id="sst2" onclick="tran(id)" name="0"></td>
                 </tr>
                 <tr>
                     <td colspan="2">4 of kind <input type="button" class="bt" id="FOK2" onclick="tran(id)" name="0">
@@ -540,7 +546,6 @@
         <form style="text-align: center;">
             <input type="button" id="reroll" value="reroll[3]" class="btn"
                 style="color: black;" onclick="change()" color="black">
-            </button>
         </form>
         <div style="position:fixed; font-size: 1vw; bottom:0; right:17vw;">제작자 : 한성대학교 정태현</div>
     </section>

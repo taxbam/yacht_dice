@@ -30,26 +30,25 @@
             padding-bottom: 2vh;
         }
     </style>
-
+    <body>
     <div>
-        <img src="주사위\dice.png">
+        <img src="주사위/dice.jpg">
         <span style="position: absolute; top:0;font-family: 'HY헤드라인M', sans-serif;">YACHT</span>
     </div>
 
     <div style="float:right; margin-right:10%; width:30%">
-        <input type="button" id="start">
+        <input type="button" id="start" value="시작하기">
         <br><br>
-        <input type="button" id="rule">
+        <input type="button" id="rule" value="룰 설명">
     </div>
+    </body>
 
     <script>
         let start = document.getElementById("start")
         let rule = document.getElementById("rule")
-        start.value = "시작하기";
-        rule.value = "룰 설명";
 
         start.onclick = function () {        
-            window.location.href = "yacht dice.html";
+            window.location.href = "yacht dice test.html";
             
         }
         rule.onclick = function () {

@@ -3,19 +3,25 @@
 
 <head>
     <meta charset="utf-8">
+    <link rel="preload" as="image" href="주사위/요트 룰.jpg">
+    <link rel="preload" as="image" href="주사위/요트 족보.jpg">
+
     <style>
         body {
             background-color: #F3E3C3;
+            margin: 0;
         }
 
         span {
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
         }
 
         img {
             height: 95vh;
+            width: auto;
         }
 
         input {
@@ -23,27 +29,35 @@
             width: 25vw;
             bottom: 10vh;
             right: 20vw;
-            font-size: clamp(20px,3vw,60px);
+            font-size: clamp(20px, 3vw, 60px);
+            cursor: pointer;
         }
-
     </style>
+</head>
+
+<body>
     <span>
-        <img src="주사위/요트 룰.png" id="img">
+        <img src="주사위/요트 룰.jpg" id="img">
         <input type="button" value="다음" id="next" onclick="change()">
     </span>
+
     <script>
         let next = document.getElementById("next");
         let img = document.getElementById("img");
         let changed = 0;
+        const preImg = new Image();
+        preImg.src = "주사위/요트 족보.jpg";
 
         function change() {
-            if (changed == 0){
-                img.src = "주사위/요트 족보.png";
+            if (changed == 0) {
+                img.src = "주사위/요트 족보.jpg";
                 changed++;
-                next.value="처음으로";
-            }
-            else {
+                next.value = "처음으로";
+            } else {
                 window.location.href = "index.html";
             }
         }
     </script>
+</body>
+
+</html>
