@@ -4,4 +4,4 @@ services:
     container_name: yacht-dice
     build: .
     ports:
-      - 8888:8000
+      - 8888:80
