@@ -34,7 +34,23 @@ jobs:
         username: ${{ secrets.SERVER_USERNAME }}
         key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
-          cd /path/to/your/project
-          docker-compose down
+          # 우선 ~/yacht-dice에서 docker-compose 파일 검색
+          PROJECT_A=~/yacht-dice
+          PROJECT_B=~/yacht      # 필요 시 실제 레포 경로로 변경
+
+          if [ -f "$PROJECT_A/docker-compose.yml" ]; then
+            COMPOSE_FILE="$PROJECT_A/docker-compose.yml"
+            COMPOSE_DIR="$PROJECT_A"
+          elif [ -f "$PROJECT_B/docker-compose.yml" ]; then
+            COMPOSE_FILE="$PROJECT_B/docker-compose.yml"
+            COMPOSE_DIR="$PROJECT_B"
+          else
+            echo "docker-compose.yml을 찾을 수 없습니다. 1) $PROJECT_A, 2) $PROJECT_B 경로 확인." >&2
+            exit 1
+          fi
+
+          cd "$COMPOSE_DIR"
+          docker-compose -f "$COMPOSE_FILE" down
           docker pull ghcr.io/${{ github.repository }}/yacht-dice:latest
-          docker-compose up -d
+          docker-compose -f "$COMPOSE_FILE" up -d
+
